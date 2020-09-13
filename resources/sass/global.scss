@@ -1,0 +1,703 @@
+// the ~ allows you to reference things in node_modules
+@import '~bootstrap/scss/bootstrap';
+$base-color:rgba(131, 120, 111, 1);
+$base-color-transparent:rgba(131, 120, 111, 0);
+$menu-b-color:rgba(110, 98, 89, 1);
+$menu-active-color:rgba(62, 43, 46, 1);
+$titre-color:antiquewhite;
+$post-text-color:white;
+.div.my-content strong {
+    color: orangered;
+    font-weight: bold;
+}
+
+body {
+    height: 100vh;
+    background-image: linear-gradient( to right, #96a083, #6e6259, darkgreen, #6e6259, #96a083);
+    background-repeat: no-repeat repeat-y;
+}
+
+.superleanbody {
+    padding: 10px;
+}
+
+
+/***********TOP BAR*********************************************************************************/
+
+.topbar {
+    height: 60px;
+    background-color: black;
+    color: white;
+    padding: 6px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    padding-left: 30px;
+}
+
+.super-topbar {
+    width: 100%;
+    background-color: red;
+}
+
+#contain-logo {
+    background-color: rgba(0, 0, 0, 0);
+    visibility: none;
+}
+
+#contain-logo {
+    position: absolute;
+    top: 30px;
+    width: 0px;
+    margin: auto;
+    z-index: 1000;
+}
+
+div.app  #logo {
+    height: 400px;
+    /*attention si trop haut peut entraver le menu*/
+    width: 200px;
+    margin-left: 60px;
+    margin-top: -50px; 
+    background:  linear-gradient(rgba(255, 255, 255, 1) , rgba(255, 255, 255, 0));
+   /* background-image: -webkit-linear-gradient(  rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -moz-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -ms-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -o-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);*/
+    color: #567854;
+    padding: 20px;
+    padding-top: 20px;
+    padding-top: 10px;
+    font-family: georgia, times, 'times new roman', serif;
+    font-size: 1.5em;
+}
+
+div.bare  #logo {
+    height: 100px;
+    /*attention si trop haut peut entraver le menu*/
+    width: 200px;
+    margin-left: 60px;
+    margin-top: -50px; 
+    background:  linear-gradient(rgba(255, 255, 255, 1) , rgba(255, 255, 255, 0));
+   /* background-image: -webkit-linear-gradient(  rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -moz-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -ms-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -o-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);*/
+    color: #567854;
+    padding: 20px;
+    padding-top: 20px;
+    padding-top: 10px;
+    font-family: georgia, times, 'times new roman', serif;
+    font-size: 1.5em;
+}
+#logo-admin {
+    height: 50px;
+    /*attention si trop haut peut entraver le menu*/
+    width: 200px;
+    margin-left: 60px;
+    margin-top: -50px;
+    background-image: -webkit-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -moz-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -ms-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: -o-linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    background-image: linear-gradient( top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 80%);
+    color: #567854;
+    padding: 20px;
+    padding-top: 20px;
+    padding-top: 10px;
+    font-family: georgia, times, 'times new roman', serif;
+    font-size: 1.5em;
+}
+
+#logo a {
+    color: aqua;
+    background-color: rgba(131, 120, 111, 1);
+    padding: 4px;
+    border: rounded;
+}
+
+.banner {
+    min-height: 300px;
+    margin-top: 30px;
+    width: 100%;
+    background-color: transparent;
+}
+
+
+/***********CAROUSEL*********************************************************************************/
+
+.carousel {
+    width: 100%;
+}
+
+.carousel-inner-img {
+    width: 100%;
+}
+
+
+/*
+inspired from http://codepen.io/Rowno/pen/Afykb 
+https://stackoverflow.com/questions/26770055/bootstrap-carousel-fade-no-longer-working-with-maxcdn-3-3-bootstrap-min-css
+*/
+
+.carousel .carousel-item.active {
+    opacity: 1;
+    transition: opacity 4s ease-in;
+}
+
+.carousel .carousel-item {
+    opacity: 0;
+    display: block;
+    left: 0;
+    transition: opacity 4s ease-out;
+}
+
+.navbar {
+    background-color: transparent;
+}
+
+.navbar-nav {
+    background-color: transparent;
+}
+
+.nav-link {
+    color: antiquewhite;
+    background-color: rgba(110, 98, 89, 1);
+    border-radius: 5px;
+    border: 1px solid antiquewhite;
+    margin-left: 15px;
+}
+
+
+/***********SLOGAN*********************************************************************************/
+
+.slogan {
+    margin-top: 15px;
+    color: peachpuff;
+    font-size: 1.8em;
+    padding: 5px;
+    text-align: center;
+    font-family: georgia, times, 'times new roman', serif;
+}
+
+.slogan-admin{
+    border: 1px solid red;
+color: white;
+font-size: 1.2em;
+padding: 5px;
+background-color: red;
+border-radius: 20px;
+text-align: center;
+}
+
+
+/***********PAGE CONTENT*********************************************************************************/
+
+div.warning {
+    color: #971418;
+    background-color: #eee;
+    padding: 10px;
+    font-style: italic;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+div.warning:before {
+    content: url(/private/admin/icons/warning-48.png);
+}
+
+div.light {
+    color: #567854;
+    background-color: azure;
+    padding: 10px;
+    font-style: italic;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+div.light:before {
+    content: url(/private/admin/icons/lightbulb-48.png);
+}
+div.container-admin{
+    max-width:2000px;
+}
+.my-content {
+    color: white;
+}
+
+div.my-page-link a,
+div.my-page-link a:hover,
+div.my-page-link a:visited {
+    color: white;
+}
+
+div.my-rubric a,
+div.my-rubric a:hover,
+div.my-rubric a:visited {
+    color: white;
+}
+
+.my-summary-link {
+    color: aqua;
+}
+
+.my-page-link {
+    font-size: 1.6em;
+}
+
+.my-col-l {
+    background-color: transparent;
+}
+
+.my-rubric {
+    border-color: white;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 12px;
+    color: white;
+}
+
+.my-rubric a,
+.my-rubric a:hover,
+.my-rubric a:visited {
+    color: #820A0A;
+    font-style: italic;
+}
+
+div.my-bottom-link {
+    padding: 10px;
+}
+
+.my-bottom-link a,
+.my-bottom-link a:hover,
+.my-bottom-link a:visited {
+    color: aqua;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.my-post h1,
+.my-content h1 {
+    font-size: 2em;
+    color: peachpuff;
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.my-content h2 {
+    color: aqua;
+}
+
+.my-post-body {
+    color: white;
+    border: 1px solid white;
+    padding: 15px;
+    max-height: 1200px;
+    min-height: 600px;
+    overflow-y: scroll;
+    height: auto;
+}
+
+.my-image {
+    width: 150px;
+    height: 100px;
+}
+
+div.break {
+    /*to resume text after image*/
+    clear: both;
+    margin-top: 10px;
+}
+
+.l40-intext {
+    float: left;
+    margin-right: 10px;
+    width: 40%;
+}
+
+.r40-intext {
+    float: right;
+    margin-left: 10px;
+    width: 40%;
+}
+
+.l50-intext {
+    float: left;
+    margin-right: 10px;
+    width: 40%;
+}
+
+.r50-intext {
+    float: right;
+    margin-left: 10px;
+    width: 40%;
+}
+
+.l60-intext {
+    float: left;
+    margin-right: 10px;
+    width: 40%;
+}
+
+.r60-intext {
+    float: right;
+    margin-left: 10px;
+    width: 40%;
+}
+
+.large-intext {
+    width: 100%;
+}
+
+.my-post-footer {
+    background-color: #6e6259;
+    padding: 10px;
+    border: 1px solid white;
+    color: white;
+}
+
+.my-btn-place {
+    position: fixed;
+    bottom: 100px;
+    left: 500px;
+}
+
+.my-button {
+    color: antiquewhite;
+    background-color: #513217;
+    border-radius: 5px;
+    border: 1px solid antiquewhite;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+.my-button-link,
+.my-button-link:hover,
+.my-button-link:visited {
+    color: antiquewhite;
+    text-decoration: none;
+}
+
+.button-line {
+    display: flex;
+}
+
+.fmg_bc_separator {
+    color: red;
+}
+
+#fmg_breadcrumb {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #888377;
+    margin: 20px;
+}
+
+.fmg_bc_base {
+    padding: 3px;
+    border-radius: 3px;
+    background-color: blue;
+    color: white;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.fmg_bc_element {
+    padding: 3px;
+    border-radius: 3px;
+    ;
+    background-color: #513217;
+    color: white;
+}
+
+#fmg_delete_selection button {
+    color: white;
+    font-weight: bold;
+    background-color: red;
+    border-radius: 15px;
+    border: 1px solid antiquewhite;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+#fmg_preview img {
+    position: fixed;
+    top: 200px;
+    left: 300px;
+    width: 300px;
+    height: 225px;
+    border: 2px solid red;
+}
+
+.fmg_hide {
+    display: none;
+}
+
+div.fmg-my-bottom-link {
+    padding: 10px;
+}
+
+.fmg-my-bottom-link a,
+.fmg-my-bottom-link a:hover,
+.fmg-my-bottom-link a:visited {
+    color: rgb(28, 72, 216);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#fmg_top {
+    background-color: #B1B5AE;
+    min-height: 250px;
+}
+
+div.d-flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.row_selected {
+    background-color: aqua;
+}
+
+div.bxw-2 {
+    width: 45%;
+    padding: 20px;
+}
+
+div.bxw-3 {
+    padding: 40px;
+}
+
+.flex-b1 {
+    flex: 1;
+}
+
+.flex-b2 {
+    flex: 2;
+}
+
+.flex-b3 {
+    flex: 3;
+}
+
+.custom-file-label {
+    background-color: white;
+    color: red;
+    height: 100px;
+}
+
+.button-line div {
+    border: solid 1px antiquewhite;
+    background-color: #513217;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    color: antiquewhite;
+}
+.submit-btn {
+    padding:0;
+    background: none;
+    border:none;
+}
+.button-link-1 {
+    flex: 1;
+}
+
+.my-icons {
+    font-size: 1.1em;
+    color: #0Be8e8;
+}
+
+.my-icons-red {
+    font-size: 1.1em;
+    color: rgb(214, 18, 99);
+}
+
+.my-icons-aqua {
+    font-size: 1.1em;
+    color: aqua;
+}
+
+.my-icons-blue {
+    font-size: 1.1em;
+    color: aqua;
+}
+
+.my-icons-green {
+    font-size: 1.1em;
+    color: green;
+}
+div .my-input-group{
+    margin-bottom: 20px;
+}
+
+.my-help-text {
+    /*help text below some fields - not workig*/
+    color: red;
+}
+
+div .like-form-submit-button{
+    padding:9px;
+}
+
+div.my-content>table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #567854;
+    font-size: 0.9em;
+}
+
+div.my-content>table>thead {
+    background-color: #567854;
+    color: peachpuff;
+    height: 30px;
+    border: 1px solid peachpuff;
+}
+
+div.my-content>table th {
+    text-align: center;
+}
+
+div.my-content>table td {
+    color: white;
+    height: 30px;
+    border: 1px solid peachpuff;
+    vertical-align: middle;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 1.5em;
+}
+
+div.my-content table tr:nth-child(odd) td {
+    color: #ece6e9;
+    background-color: #756659;
+}
+
+div.my-content table tr:nth-child(even) td {
+    color: #643b03;
+    background-color: #BBAC90;
+}
+
+div.my-content table>thead>tr {
+    background-color: #513217;
+    color: white;
+    width: 100%;
+}
+
+div.my-content form label {
+    color: aqua;
+}
+
+.my-mail-textarea {
+    width: 100%;
+    height: 200px;
+    background-color: lightblue;
+    color: blue;
+    overflow: auto;
+    padding: 20px;
+}
+
+
+/***********FOOTER*********************************************************************************/
+
+.footer {
+    height: 60px;
+    background-color: #5a5140;
+    color: white;
+    padding: 6px;
+    padding-top: 20px;
+    vertical-align: middle;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.dropdown-menu {
+    background-color: antiquewhite;
+    padding: 5px;
+}
+
+.dropdown-item {
+    background-color: #513217;
+    border-radius: 8px;
+    color: antiquewhite;
+    margin-top: 5px;
+}
+
+.my-accordion-button {
+    border-radius: 5px;
+    background-color: #90877F;
+    color: white;
+    width: 100%;
+}
+
+.my-accordion-card-body {
+    color: white;
+}
+
+.my-accordion-card {
+    background-color: #617059;
+}
+
+.my-accordion-card a,
+.my-accordion-card a:visited,
+.my-accordion-card a:hover,
+.my-accordion-card a:active {}
+
+.my-accordion-link-span {
+    color: #460808;
+}
+
+
+/*### COMMENTS ######################################################################*/
+
+.comments {
+    background-color: #FFEDD5;
+    border: 1px solid #ddd;
+}
+
+h2.comments-title {
+    color: #aaa;
+    padding: 5px;
+}
+
+.comment-header {
+    color: green;
+    padding: 5px;
+}
+
+.comment-body {
+    border-bottom: 1px solid #555;
+    padding-bottom: 5px;
+    color: #888B8D;
+    font-size: 18px;
+    margin: 20px;
+}
+
+.comment-invite,
+div.comment-form label {
+    color: #513217;
+    font-size:1.3em;
+}
+div.comment-form{
+    border-bottom: 1px solid #555;
+    padding-bottom:5px;
+    margin-bottom:10px;
+}
+
+#comment_submit {
+    color: antiquewhite;
+    background-color: #513217;
+    border-radius: 5px;
+    border: 1px solid antiquewhite;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+
+/* pour forcer la mise à jour*/
