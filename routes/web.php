@@ -77,6 +77,9 @@ Route::post('surveys','SurveyController@store')->name('survey.store');
 Route::post('surveys/sendToOne','SurveyController@sendToOne')->name('survey.sendToOne');
 Route::put('surveys','SurveyController@update')->name('survey.update');
 Route::delete('surveys/destroy/{id}','SurveyController@destroy')->name('survey.destroy');
+
+Route::get('upload','UploadController@index')->name('upload');
+Route::post('upload','UploadController@upload')->name('upload.upload');
 Route::any('{catchall}',function(){
   return 'aucune route ne correspond à votre url';
 });

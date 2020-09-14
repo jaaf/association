@@ -49,10 +49,10 @@ return [
         ],
 
         'public' => [
-            'driver' => 'public',
+            'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
-            /*ajouté */
+            /*ajouté 
             'permissions' => [
                 'file' => [
                     'public' => 0664,
