@@ -94,16 +94,15 @@ class FilemanagerController extends Controller
             }
         } else {
             return ['vide' => false, 'message' => 'Ce dossier n\'est pas vide. Effacement impossible'];
-            
         }
     }
 
-    
+
 
     public function manage(Request $request)
     {
-         Log::debug('--------------------------------------');
-         Log::debug('Receiving a  request in manage (start)');
+        Log::debug('--------------------------------------');
+        Log::debug('Receiving a  request in manage (start)');
 
         if ($request->ajax()) {
             //if ($request->isXmlHttpRequest()) {
@@ -129,44 +128,19 @@ class FilemanagerController extends Controller
                 case 'upload':
                     break;
                 case 'upload_resize':
-                  /*  Log::debug('filemanager request for uploading ' . $request->input('filename'));
                     $fullName = $request->input('folder') . DIRECTORY_SEPARATOR . $request->input('filename');
                     $pos = strrpos($fullName, '.');
                     $fullName = substr($fullName, 0, $pos) . '.jpeg';
-                    $img = $request->input('image');
-                    Log::debug('Voici l\'image brute');
-                    Log::debug($img);
-                    $img = str_replace('data:image/jpeg;base64,', '', $img);
-                    $img = str_replace(' ', '+', $img);
-                    $data = base64_decode($img);
-                    Log::debug('et voici l\'image décodée');
-                    Log::debug($data);
-                    $len = strlen($data);
-                    $success = file_put_contents($fullName, $data);
-                    Log::debug('Success is '.$success);
-                    $message = $success
-                        ? 'File saved --' . $success . '--' . $len
-                        : 'Unable to save the file.';
-                    $response = ['success'=>$success, 'message' => 'un message'];
-                    break;*/
 
-                    $fullName = $request->input('folder').DIRECTORY_SEPARATOR.$request->input('filename');
-                    $pos = strrpos($fullName, '.');
-                    $fullName = substr($fullName, 0, $pos) . '.jpeg';
-                
-                    $data = $request->input('image');
-                    
-                
-                    //$img = str_replace('data:image/jpeg;base64,', '', $img);
-                   //$img = str_replace(' ', '+', $img);
                     list($type, $data) = explode(';', $data);
                     list(, $data)      = explode(',', $data);
-                    $data = base64_decode($data);//return the length
-                 
+                    $data = base64_decode($data); //return the length
+                    //return the nb of char stored
+                    $success = file_put_contents($fullName, $data);
                     $message = $success
                         ? 'File saved --' . $success . ' bytes'
                         : 'Unable to save the file.';
-                    $response = array('message'=>$message);
+                    $response = array('message' => $message);
                     break;
             }
             //$resp=new Response(json_encode($response));$request->input('to_do');
@@ -186,7 +160,7 @@ class FilemanagerController extends Controller
 
 
 
-       
+
         $user = auth()->user();
         $user_id = $user->id;
         //the parameter "upload_directory" is set in config/services.yaml

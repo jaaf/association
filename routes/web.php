@@ -36,7 +36,7 @@ Route::get('/download/display/{file}','DownloadController@display')->name('downl
 Route::get('/download/serve/{file}','DownloadController@serve')->name('download.serve')->where('file', '(.*)')->middleware('verified');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home-direct');
 
 Route::resource('posts','PostsController')->middleware('verified');
 Route::get('posts/narratives/{year}','PostsController@narratives')->name('posts.narratives')->middleware('verified');
