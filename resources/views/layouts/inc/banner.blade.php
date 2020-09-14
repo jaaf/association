@@ -4,7 +4,7 @@
       data-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img class="d-block w-100" src="/storage/banner/banner-001.jpg" alt="First slide" />
+          <img class="d-block w-100" src="<?php echo asset('storage/banner/banner-001.jpg'); ?>" alt="First slide" />
         </div>
         <div class="carousel-item">
           <img class="d-block w-100" src="/storage/banner/banner-002.jpg"  alt="Second slide"/>
@@ -28,3 +28,4 @@
       </div>
     </div>
   </div>
+  <?php echo asset('storage/banner/banner-001.jpg'); ?>
