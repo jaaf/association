@@ -239,7 +239,7 @@ var filemanager = {
   // resize image before upload
   // if resize is not required
   // please use upload(file) instead
-  resizeAndUpload: function resizeAndUpload(file) {
+  resizeAndUploadOld: function resizeAndUploadOld(file) {
     var $row = filemanager.renderFileUploadRow(file, current_dir);
     var action_url = $('#actionUrl').html(); //the thumbnail in the upload line
 
@@ -357,8 +357,8 @@ var filemanager = {
 
     reader.readAsDataURL(file); //reader.readAsBinaryString(file);
   },
-  resizeAndUploadA: function resizeAndUploadA(file) {
-    console.log('in resizeAndUpload');
+  //from SYMFONY######################################################################
+  resizeAndUpload: function resizeAndUpload(file) {
     var $row = filemanager.renderFileUploadRow(file, current_dir);
     var action_url = $('#actionUrl').html(); //the thumbnail in the upload line
 
@@ -402,16 +402,15 @@ var filemanager = {
         var ctx = canvas.getContext("2d");
         ctx.drawImage(this, 0, 0, tempW, tempH);
         var dataURL = canvas.toDataURL("image/jpeg");
-        form_data.append('image', dataURL);
-        document.getElementById('output').src = dataURL; //each time an ajax request is made cpt is increased
+        form_data.append('image', dataURL); //each time an ajax request is made cpt is increased
         //will be decreased on complete
 
         cpt += 1;
         $.ajax({
           dataType: 'json',
           type: 'post',
-          url: "filemanager/manage",
           data: form_data,
+          url: "/filemanager/manage",
           processData: false,
           contentType: false,
           xhr: function (_xhr2) {
@@ -461,7 +460,7 @@ var filemanager = {
             if (cpt === 0) {
               $('#fmg_upload_progress').fadeOut(4000);
               $('#fmg_file_form').fadeIn(8000);
-              $('#fmg-multiple-input-label').html('');
+              $('.custom-file-label').html('');
               filemanager.list(current_dir);
             }
 

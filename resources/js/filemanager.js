@@ -172,7 +172,7 @@ var filemanager = {
     // resize image before upload
     // if resize is not required
     // please use upload(file) instead
-    resizeAndUpload: function (file) {
+    resizeAndUploadOld: function (file) {
         var $row = filemanager.renderFileUploadRow(file, current_dir);
         var action_url = $('#actionUrl').html();
         //the thumbnail in the upload line
@@ -274,9 +274,10 @@ var filemanager = {
         reader.readAsDataURL(file);
         //reader.readAsBinaryString(file);
     },
+     
 
-    resizeAndUploadA: function (file) {
-        console.log('in resizeAndUpload');
+    //from SYMFONY######################################################################
+    resizeAndUpload: function(file) {
         var $row = filemanager.renderFileUploadRow(file, current_dir);
         var action_url = $('#actionUrl').html();
         //the thumbnail in the upload line
@@ -291,11 +292,11 @@ var filemanager = {
         form_data.append('filename', file.name);
 
         var reader = new FileReader();
-        reader.onloadend = function () {
+        reader.onloadend = function() {
             thumb.attr('src', reader.result);
             var tempImg = new Image();
             tempImg.src = reader.result;
-            tempImg.onload = function (e) {
+            tempImg.onload = function(e) {
 
                 var MAX_WIDTH = 1600;
                 var MAX_HEIGHT = 1200;
@@ -319,7 +320,6 @@ var filemanager = {
                 ctx.drawImage(this, 0, 0, tempW, tempH);
                 var dataURL = canvas.toDataURL("image/jpeg");
                 form_data.append('image', dataURL);
-                document.getElementById('output').src = dataURL;
 
                 //each time an ajax request is made cpt is increased
                 //will be decreased on complete
@@ -327,13 +327,13 @@ var filemanager = {
                 $.ajax({
                     dataType: 'json',
                     type: 'post',
-                    url: "filemanager/manage",
                     data: form_data,
+                    url:"/filemanager/manage",
                     processData: false,
                     contentType: false,
-                    xhr: function () {
+                    xhr: function() {
                         xhr = new window.XMLHttpRequest(); //new
-                        xhr.upload.addEventListener('progress', function (e) {
+                        xhr.upload.addEventListener('progress', function(e) {
                             if (e.lengthComputable) {
                                 percent = e.loaded / e.total * 100;
                                 console.log("percent is " + percent);
@@ -341,31 +341,31 @@ var filemanager = {
                             }
                         });
                         // on load remove the progress bar
-                        xhr.upload.onload = function () {
+                        xhr.upload.onload = function() {
                             $row.remove();
                         };
                         // return the customized object
                         return xhr;
                     },
-                    success: function (data) {
+                    success: function(data) {
                         // console.log('success decreasing cpt ' + cpt + '--' + data['message']);
                         if (cpt > 0) {
                             cpt -= 1;
                         }
                     },
-                    error: function (request, status, errorThrown) {
+                    error: function(request, status, errorThrown) {
                         if (cpt > 0) {
                             cpt -= 1;
                         }
                         alert('error : ' + errorThrown + '  !!S');
                     },
-                    complete: function (request, status) {
+                    complete: function(request, status) {
                         //when all uploads are over
                         //console.log('complete ' + cpt);
                         if (cpt === 0) {
                             $('#fmg_upload_progress').fadeOut(4000);
                             $('#fmg_file_form').fadeIn(8000);
-                            $('#fmg-multiple-input-label').html('');
+                            $('.custom-file-label').html('');
 
                             filemanager.list(current_dir);
                         }
@@ -377,6 +377,7 @@ var filemanager = {
         reader.readAsDataURL(file);
         //reader.readAsBinaryString(file);
     },
+
 
     //not used at the moment
     //upload the file without resizing

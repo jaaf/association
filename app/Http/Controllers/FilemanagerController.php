@@ -11,7 +11,8 @@ class FilemanagerController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('isAtLeastPhotoprovider');
+       // $this->middleware('isAtLeastPhotoprovider');
+    
     }
 
     
@@ -114,10 +115,10 @@ class FilemanagerController extends Controller
         if ($request->ajax()) {
             //if ($request->isXmlHttpRequest()) {
             Log::debug('Receiving an AJAX request');
-            $data = $request->input('to_do');
-            Log::debug('Receiving an ajax request with ' . $data);
+            $to_do = $request->input('to_do');
+            Log::debug('Receiving an ajax request with ' . $to_do);
             $dir = $request->input('dir');
-            switch ($data) {
+            switch ($to_do) {
                 case 'list':
                     Log::debug('filemanager request for listing a dir ' . $request->input('new_dir'));
                     $response = $this->listDir($dir);
@@ -135,12 +136,11 @@ class FilemanagerController extends Controller
                 case 'upload':
                     break;
                 case 'upload_resize':
-                    Log::debug('in case upload_resize');
                     $fullName = $request->input('folder') . DIRECTORY_SEPARATOR . $request->input('filename');
                     $pos = strrpos($fullName, '.');
                     $fullName = substr($fullName, 0, $pos) . '.jpeg';
-                    Log::debug('fullName is '.$fullName);
-
+                    $fullName=str_replace('public/storage','storage/app/public',$fullName);
+                    $data=$request->input('image');
                     list($type, $data) = explode(';', $data);
                     list(, $data)      = explode(',', $data);
                     $data = base64_decode($data); //return the length
@@ -152,9 +152,6 @@ class FilemanagerController extends Controller
                     $response = array('succes'=>$message, 'message' => $message);
                     break;
             }
-            //$resp=new Response(json_encode($response));$request->input('to_do');
-            // return ($resp);
-            //return response($response);
             return response()->json($response);
         } else {
             Log::debug('filemanager dealing wih NON AJAX request for' . $request->input('to_do'));
@@ -164,6 +161,11 @@ class FilemanagerController extends Controller
 
     public function index(Request $request)
     {
+
+        if(Gate::denies('isAtLeastPhotoprovider')){
+
+            return (abort(401));
+        }
         Log::debug('Entering index function in filemanager');
 
 
@@ -175,8 +177,10 @@ class FilemanagerController extends Controller
         //the parameter "upload_directory" is set in config/services.yaml
         if (Gate::allows('isAdmin', $user)) {
             $destination_dir = public_path() . '/storage/photos/admin';
+            $actual_destination_dir=storage_path().'/app/public/admin';//to store without Laravel filesystem but with php instead
         } else {
             $destination_dir = public_path() . '/storage/photos/admin/' . $user_id;
+            $actual_destination_dir=storage_path().'/app/public/admin'.$user_id;
         }
 
 
