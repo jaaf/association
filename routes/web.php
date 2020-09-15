@@ -20,7 +20,7 @@ Route::get('/email', function ($post_id,$dir) {
     return 'done';
 });
 
-Route::get('/filemanager','FilemanagerController@index')->name('filemanager');
+Route::get('/filemanager','FilemanagerController@index')->name('filemanager.index');
 Route::post('/filemanager/manage','FilemanagerController@manage')->name('filemanager.manage');
 
 Route::post('/filemanager/testajax','FilemanagerController@testajax');
@@ -78,8 +78,9 @@ Route::post('surveys/sendToOne','SurveyController@sendToOne')->name('survey.send
 Route::put('surveys','SurveyController@update')->name('survey.update');
 Route::delete('surveys/destroy/{id}','SurveyController@destroy')->name('survey.destroy');
 
-Route::get('upload','UploadController@index')->name('upload');
+Route::get('upload','UploadController@index')->name('upload.index');
 Route::post('upload','UploadController@upload')->name('upload.upload');
+
 Route::any('{catchall}',function(){
   return 'aucune route ne correspond à votre url';
 });
@@ -87,6 +88,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');

@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use App\Http\Middleware\IsAtLeastPhotoprovider;
 
 class FilemanagerController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('isAtLeastPhotoprovider');
+    }
+
+    
 
     public static function formatTime($timestamp)
     {
@@ -128,9 +135,11 @@ class FilemanagerController extends Controller
                 case 'upload':
                     break;
                 case 'upload_resize':
+                    Log::debug('in case upload_resize');
                     $fullName = $request->input('folder') . DIRECTORY_SEPARATOR . $request->input('filename');
                     $pos = strrpos($fullName, '.');
                     $fullName = substr($fullName, 0, $pos) . '.jpeg';
+                    Log::debug('fullName is '.$fullName);
 
                     list($type, $data) = explode(';', $data);
                     list(, $data)      = explode(',', $data);
@@ -140,7 +149,7 @@ class FilemanagerController extends Controller
                     $message = $success
                         ? 'File saved --' . $success . ' bytes'
                         : 'Unable to save the file.';
-                    $response = array('message' => $message);
+                    $response = array('succes'=>$message, 'message' => $message);
                     break;
             }
             //$resp=new Response(json_encode($response));$request->input('to_do');

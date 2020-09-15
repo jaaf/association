@@ -150,6 +150,7 @@ var filemanager = {
         var relative_dir = current_dir.replace($('#userBaseDir').html(), '');
         console.log('relative dir is ' + relative_dir);
         var image_route = 'storage/photos/' + privacy + relative_dir + '/' + link.html();
+        console.log('image_route is ' + image_route);
         $("#fmg_preview").empty().append('<img src="' + image_route + '" />');
         $("#fmg_preview").show();
       }
@@ -253,7 +254,7 @@ var filemanager = {
     form_data.append('filename', file.name);
     var reader = new FileReader();
 
-    reader.onloadend = function () {
+    reader.onloadend = function (ev) {
       thumb.attr('src', reader.result);
       var tempImg = new Image();
       tempImg.src = reader.result;
@@ -291,7 +292,7 @@ var filemanager = {
         cpt += 1;
         $.ajax({
           dataType: 'json',
-          type: 'post',
+          type: 'POST',
           data: form_data,
           url: "filemanager/manage",
           processData: false,
@@ -704,6 +705,7 @@ var selectedRows = [];
 var lastSelectedRow = undefined;
 $(document).ready(function () {
   filemanager.list(current_dir);
+  console.clear();
   $('#fmg_btn_mkdir').click(function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -742,8 +744,7 @@ $(document).ready(function () {
 
     for (var i = 0; i < $(this)[0].files.length; i++) {
       file = $(this)[0].files[i];
-      files.push(file.name);
-      filemanager.resizeAndUpload(input.files[i]);
+      files.push(file.name); //filemanager.resizeAndUpload(input.files[i]);
     }
   }); //MULTIPART FILE INPUT UPLOAD
 
@@ -756,6 +757,7 @@ $(document).ready(function () {
       var input = document.getElementById('fmg-multiple-input'); //equivalent return the DOM element
 
       for (var i = 0; i < input.files.length; i++) {
+        console.log(input.files[i]);
         filemanager.resizeAndUpload(input.files[i]); //filemanager.uploadFile(input.files[i]);
       }
 

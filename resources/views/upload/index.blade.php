@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">Laravel Storage Example</div>
                     <div class="card-body">
-                        <form action="{{ route('upload') }}" method="POST" role="form" enctype="multipart/form-data">
+                        <form action="{{ route('upload.upload') }}" method="POST" role="form" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <label for="disk" class="col-md-4 col-form-label text-md-right">Disque</label>
