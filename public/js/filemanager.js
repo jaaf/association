@@ -373,10 +373,10 @@ var filemanager = {
     form_data.append('filename', file.name);
     var reader = new FileReader();
 
-    reader.onloadend = function () {
+    reader.onloadend = function (readerEvent) {
       thumb.attr('src', reader.result);
       var tempImg = new Image();
-      tempImg.src = reader.result;
+      tempImg["with"] = 1200;
 
       tempImg.onload = function (e) {
         var MAX_WIDTH = 1600;
@@ -400,8 +400,8 @@ var filemanager = {
         canvas.width = tempW;
         canvas.height = tempH;
         var ctx = canvas.getContext("2d");
-        ctx.drawImage(this, 0, 0, tempW, tempH);
-        var dataURL = canvas.toDataURL("image/jpeg");
+        ctx.drawImage(tempImg, 0, 0, tempW, tempH);
+        var dataURL = canvas.toDataURL("image/jpeg", 1.0);
         form_data.append('image', dataURL); //each time an ajax request is made cpt is increased
         //will be decreased on complete
 
@@ -468,6 +468,8 @@ var filemanager = {
           }
         });
       };
+
+      tempImg.src = readerEvent.target.result;
     };
 
     reader.readAsDataURL(file); //reader.readAsBinaryString(file);

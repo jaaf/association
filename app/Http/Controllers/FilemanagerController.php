@@ -169,7 +169,9 @@ class FilemanagerController extends Controller
         Log::debug('Entering index function in filemanager');
 
 
-
+        $navigator=$_SERVER['HTTP_USER_AGENT'];
+        Log::debug($navigator);
+       
 
 
         $user = auth()->user();
@@ -192,7 +194,13 @@ class FilemanagerController extends Controller
         $actionUrl = "/filemanager";
 
         $currentDir = $destination_dir;
-        $actionUrl = $actionUrl;
+        $actionUrl = $actionUrl; 
+        /*if(str_contains($navigator,'Firefox')){
+
+            return back()->with('failure','Apparemment vous utilisez le navigateur Firefox ! Le téléversement d\'images ne fonctionne pas avec ce navigateur. Utilisez
+        plutôt un autre navigateur comme Opera, Chrome ou Edge.');
+
+        }*/
         return view('filemanager.main', compact('currentDir', 'actionUrl'));
     }
 }

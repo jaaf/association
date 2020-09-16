@@ -78,8 +78,8 @@ Route::post('surveys/sendToOne','SurveyController@sendToOne')->name('survey.send
 Route::put('surveys','SurveyController@update')->name('survey.update');
 Route::delete('surveys/destroy/{id}','SurveyController@destroy')->name('survey.destroy');
 
-Route::get('upload','UploadController@index')->name('upload.index');
-Route::post('upload','UploadController@upload')->name('upload.upload');
+Route::get('upload','UploadController@index')->name('upload.index')->middleware('isAdmin');
+Route::post('upload','UploadController@upload')->name('upload.upload')->middleware('isAdmin');
 
 Route::any('{catchall}',function(){
   return 'aucune route ne correspond à votre url';
