@@ -20,7 +20,10 @@ Route::get('/email', function ($post_id,$dir) {
     return 'done';
 });
 
-Route::get('/filemanager','FilemanagerController@index')->name('filemanager');
+Route::get('/', 'HomeController@index')->name('home-direct');
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/filemanager','FilemanagerController@index')->name('filemanager.index');
 Route::post('/filemanager/manage','FilemanagerController@manage')->name('filemanager.manage');
 
 Route::post('/filemanager/testajax','FilemanagerController@testajax');
@@ -35,8 +38,8 @@ Route::get('reload-captcha', 'CaptchaServiceController@reloadCaptcha');
 Route::get('/download/display/{file}','DownloadController@display')->name('download.display')->where('file', '(.*)')->middleware('verified');
 Route::get('/download/serve/{file}','DownloadController@serve')->name('download.serve')->where('file', '(.*)')->middleware('verified');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'HomeController@index')->name('home-direct');
+
+
 
 Route::resource('posts','PostsController')->middleware('verified');
 Route::get('posts/narratives/{year}','PostsController@narratives')->name('posts.narratives')->middleware('verified');
@@ -78,15 +81,14 @@ Route::post('surveys/sendToOne','SurveyController@sendToOne')->name('survey.send
 Route::put('surveys','SurveyController@update')->name('survey.update');
 Route::delete('surveys/destroy/{id}','SurveyController@destroy')->name('survey.destroy');
 
-Route::get('upload','UploadController@index')->name('upload');
+Route::get('upload','UploadController@index')->name('upload.index');
 Route::post('upload','UploadController@upload')->name('upload.upload');
+
 Route::any('{catchall}',function(){
   return 'aucune route ne correspond à votre url';
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+

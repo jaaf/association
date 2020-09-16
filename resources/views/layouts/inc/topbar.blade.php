@@ -48,6 +48,14 @@
                                         <a class="dropdown-item" href="{{route('infoletter.index')}}">Infoletters</a>
                                         <a class="dropdown-item"  href="{{route('adherent.index')}}">Adhérents</a>  
                                     @endcan
+                                    @can('isAtLeastPhotoprovider')
+                                        <a class="dropdown-item"  href="{{route('filemanager.index')}}">Fournir des photos(contraint)</a>
+                                    @endcan
+                                    @can('isAdmin')
+                                    
+                                        <a class="dropdown-item"  href="{{route('upload.index')}}">Fournir des photos(libre)</a>
+                              
+                                    @endcan
                                     <a class="dropdown-item"  href="{{route('home')}}">Retour à l'accueil</a> 
                                  </div>
                                </li>

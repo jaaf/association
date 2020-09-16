@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -21,6 +22,7 @@ class UploadController extends Controller
         $files=$request->file('files');
         foreach ($files as $file){
             $name=$file->getClientOriginalName();
+            Log::debug('in UploadController@upload $name is '.$name);
             if ($request->input('disk')=='public'){
                 $file->storeAs($destination,$name,'public');
             } else{

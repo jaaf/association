@@ -150,6 +150,7 @@ var filemanager = {
         var relative_dir = current_dir.replace($('#userBaseDir').html(), '');
         console.log('relative dir is ' + relative_dir);
         var image_route = 'storage/photos/' + privacy + relative_dir + '/' + link.html();
+        console.log('image_route is ' + image_route);
         $("#fmg_preview").empty().append('<img src="' + image_route + '" />');
         $("#fmg_preview").show();
       }
@@ -238,7 +239,7 @@ var filemanager = {
   // resize image before upload
   // if resize is not required
   // please use upload(file) instead
-  resizeAndUpload: function resizeAndUpload(file) {
+  resizeAndUploadOld: function resizeAndUploadOld(file) {
     var $row = filemanager.renderFileUploadRow(file, current_dir);
     var action_url = $('#actionUrl').html(); //the thumbnail in the upload line
 
@@ -253,7 +254,7 @@ var filemanager = {
     form_data.append('filename', file.name);
     var reader = new FileReader();
 
-    reader.onloadend = function () {
+    reader.onloadend = function (ev) {
       thumb.attr('src', reader.result);
       var tempImg = new Image();
       tempImg.src = reader.result;
@@ -291,7 +292,7 @@ var filemanager = {
         cpt += 1;
         $.ajax({
           dataType: 'json',
-          type: 'post',
+          type: 'POST',
           data: form_data,
           url: "filemanager/manage",
           processData: false,
@@ -356,8 +357,8 @@ var filemanager = {
 
     reader.readAsDataURL(file); //reader.readAsBinaryString(file);
   },
-  resizeAndUploadA: function resizeAndUploadA(file) {
-    console.log('in resizeAndUpload');
+  //from SYMFONY######################################################################
+  resizeAndUpload: function resizeAndUpload(file) {
     var $row = filemanager.renderFileUploadRow(file, current_dir);
     var action_url = $('#actionUrl').html(); //the thumbnail in the upload line
 
@@ -401,16 +402,15 @@ var filemanager = {
         var ctx = canvas.getContext("2d");
         ctx.drawImage(this, 0, 0, tempW, tempH);
         var dataURL = canvas.toDataURL("image/jpeg");
-        form_data.append('image', dataURL);
-        document.getElementById('output').src = dataURL; //each time an ajax request is made cpt is increased
+        form_data.append('image', dataURL); //each time an ajax request is made cpt is increased
         //will be decreased on complete
 
         cpt += 1;
         $.ajax({
           dataType: 'json',
           type: 'post',
-          url: "filemanager/manage",
           data: form_data,
+          url: "/filemanager/manage",
           processData: false,
           contentType: false,
           xhr: function (_xhr2) {
@@ -460,7 +460,7 @@ var filemanager = {
             if (cpt === 0) {
               $('#fmg_upload_progress').fadeOut(4000);
               $('#fmg_file_form').fadeIn(8000);
-              $('#fmg-multiple-input-label').html('');
+              $('.custom-file-label').html('');
               filemanager.list(current_dir);
             }
 
@@ -704,6 +704,7 @@ var selectedRows = [];
 var lastSelectedRow = undefined;
 $(document).ready(function () {
   filemanager.list(current_dir);
+  console.clear();
   $('#fmg_btn_mkdir').click(function (event) {
     event.preventDefault();
     event.stopPropagation();
@@ -742,8 +743,7 @@ $(document).ready(function () {
 
     for (var i = 0; i < $(this)[0].files.length; i++) {
       file = $(this)[0].files[i];
-      files.push(file.name);
-      filemanager.resizeAndUpload(input.files[i]);
+      files.push(file.name); //filemanager.resizeAndUpload(input.files[i]);
     }
   }); //MULTIPART FILE INPUT UPLOAD
 
@@ -756,6 +756,7 @@ $(document).ready(function () {
       var input = document.getElementById('fmg-multiple-input'); //equivalent return the DOM element
 
       for (var i = 0; i < input.files.length; i++) {
+        console.log(input.files[i]);
         filemanager.resizeAndUpload(input.files[i]); //filemanager.uploadFile(input.files[i]);
       }
 

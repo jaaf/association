@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use App\Http\Middleware\IsAtLeastPhotoprovider;
 
 class FilemanagerController extends Controller
 {
+
+    public function __construct() {
+       // $this->middleware('isAtLeastPhotoprovider');
+    
+    }
+
+    
 
     public static function formatTime($timestamp)
     {
@@ -107,10 +115,10 @@ class FilemanagerController extends Controller
         if ($request->ajax()) {
             //if ($request->isXmlHttpRequest()) {
             Log::debug('Receiving an AJAX request');
-            $data = $request->input('to_do');
-            Log::debug('Receiving an ajax request with ' . $data);
+            $to_do = $request->input('to_do');
+            Log::debug('Receiving an ajax request with ' . $to_do);
             $dir = $request->input('dir');
-            switch ($data) {
+            switch ($to_do) {
                 case 'list':
                     Log::debug('filemanager request for listing a dir ' . $request->input('new_dir'));
                     $response = $this->listDir($dir);
@@ -131,7 +139,8 @@ class FilemanagerController extends Controller
                     $fullName = $request->input('folder') . DIRECTORY_SEPARATOR . $request->input('filename');
                     $pos = strrpos($fullName, '.');
                     $fullName = substr($fullName, 0, $pos) . '.jpeg';
-
+                    $fullName=str_replace('public/storage','storage/app/public',$fullName);
+                    $data=$request->input('image');
                     list($type, $data) = explode(';', $data);
                     list(, $data)      = explode(',', $data);
                     $data = base64_decode($data); //return the length
@@ -140,12 +149,9 @@ class FilemanagerController extends Controller
                     $message = $success
                         ? 'File saved --' . $success . ' bytes'
                         : 'Unable to save the file.';
-                    $response = array('message' => $message);
+                    $response = array('succes'=>$message, 'message' => $message);
                     break;
             }
-            //$resp=new Response(json_encode($response));$request->input('to_do');
-            // return ($resp);
-            //return response($response);
             return response()->json($response);
         } else {
             Log::debug('filemanager dealing wih NON AJAX request for' . $request->input('to_do'));
@@ -155,10 +161,17 @@ class FilemanagerController extends Controller
 
     public function index(Request $request)
     {
+
+        if(Gate::denies('isAtLeastPhotoprovider')){
+
+            return (abort(401));
+        }
         Log::debug('Entering index function in filemanager');
 
 
-
+        $navigator=$_SERVER['HTTP_USER_AGENT'];
+        Log::debug($navigator);
+       
 
 
         $user = auth()->user();
@@ -166,20 +179,26 @@ class FilemanagerController extends Controller
         //the parameter "upload_directory" is set in config/services.yaml
         if (Gate::allows('isAdmin', $user)) {
             $destination_dir = public_path() . '/storage/photos/admin';
+            $actual_destination_dir=storage_path().'/app/public/admin';//to store without Laravel filesystem but with php instead
         } else {
             $destination_dir = public_path() . '/storage/photos/admin/' . $user_id;
+            $actual_destination_dir=storage_path().'/app/public/admin'.$user_id;
         }
 
 
         if (!is_dir($destination_dir)) {
             mkdir($destination_dir, 0770, true);
         }
-        //$route = DIRECTORY_SEPARATOR.$request->attributes->get('_route');
-        //$route = DIRECTORY_SEPARATOR.$request->attributes->get('_route_params');
         $actionUrl = "/filemanager";
 
         $currentDir = $destination_dir;
-        $actionUrl = $actionUrl;
+        $actionUrl = $actionUrl; 
+        if(str_contains($navigator,'Firefox')){
+
+            return back()->with('failure','Apparemment vous utilisez le navigateur Firefox ! Le téléversement d\'images ne fonctionne pas avec ce navigateur. Utilisez
+        plutôt un autre navigateur comme Opera, Chrome ou Edge.');
+
+        }
         return view('filemanager.main', compact('currentDir', 'actionUrl'));
     }
 }

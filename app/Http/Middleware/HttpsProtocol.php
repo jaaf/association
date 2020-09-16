@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\App;
+//--------------------
 
-class IsAtLeastPhotoprovider
+class HttpsProtocol
 {
     /**
      * Handle an incoming request.
@@ -16,11 +17,10 @@ class IsAtLeastPhotoprovider
      */
     public function handle($request, Closure $next)
     {
-
-        
-        if(Gate::denies('isAtLeastPhotoprovider')){
-            abort(401);
+        if (!$request->secure() && App::environment() === 'production') {
+            return redirect()->secure($request->getRequestUri());
         }
+
         return $next($request);
     }
 }

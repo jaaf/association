@@ -23,6 +23,7 @@ class InfoletterController extends Controller
         $this->middleware('isAtLeastManager');
     }
 
+    
 
     /**
      * Display a listing of the resource.

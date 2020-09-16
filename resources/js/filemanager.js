@@ -53,6 +53,7 @@ var filemanager = {
                 var relative_dir = current_dir.replace($('#userBaseDir').html(), '');
                 console.log('relative dir is ' + relative_dir);
                 var image_route = 'storage/photos/' + privacy + relative_dir + '/' + link.html();
+                console.log('image_route is '+image_route);
                 $("#fmg_preview").empty().append('<img src="' + image_route + '" />');
                 $("#fmg_preview").show();
             }
@@ -164,14 +165,11 @@ var filemanager = {
             .append($('<span class="size" />').text(file.size));
         return $row;
     },
-    // resize image before upload
-    // if resize is not required
-    // please use upload(file) instead
+ 
+     
 
-    // resize image before upload
-    // if resize is not required
-    // please use upload(file) instead
-    resizeAndUpload: function (file) {
+    //from SYMFONY######################################################################
+    resizeAndUpload: function(file) {
         var $row = filemanager.renderFileUploadRow(file, current_dir);
         var action_url = $('#actionUrl').html();
         //the thumbnail in the upload line
@@ -186,11 +184,13 @@ var filemanager = {
         form_data.append('filename', file.name);
 
         var reader = new FileReader();
-        reader.onloadend = function (ev) {
+        reader.onloadend = function(readerEvent) {
             thumb.attr('src', reader.result);
             var tempImg = new Image();
-            tempImg.src = reader.result;
-            tempImg.onload = function (e) {
+            tempImg.with=1200;
+            
+            
+            tempImg.onload = function(e) {
 
                 var MAX_WIDTH = 1600;
                 var MAX_HEIGHT = 1200;
@@ -211,12 +211,10 @@ var filemanager = {
                 canvas.width = tempW;
                 canvas.height = tempH;
                 var ctx = canvas.getContext("2d");
-                console.log('tempW and tempH ' + tempW + ' ' + tempH);
-                ctx.drawImage(this, 0, 0, tempW, tempH);
-                var dataURL = canvas.toDataURL("image/jpeg");
-                //form_data.append('image', dataURL);
+                ctx.drawImage(tempImg, 0, 0, tempW, tempH);
+                var dataURL = canvas.toDataURL("image/jpeg",1.0);
                 form_data.append('image', dataURL);
-                document.getElementById('output').src = dataURL;
+
                 //each time an ajax request is made cpt is increased
                 //will be decreased on complete
                 cpt += 1;
@@ -224,12 +222,12 @@ var filemanager = {
                     dataType: 'json',
                     type: 'post',
                     data: form_data,
-                    url: "filemanager/manage",
+                    url:"/filemanager/manage",
                     processData: false,
                     contentType: false,
-                    xhr: function () {
+                    xhr: function() {
                         xhr = new window.XMLHttpRequest(); //new
-                        xhr.upload.addEventListener('progress', function (e) {
+                        xhr.upload.addEventListener('progress', function(e) {
                             if (e.lengthComputable) {
                                 percent = e.loaded / e.total * 100;
                                 console.log("percent is " + percent);
@@ -237,213 +235,45 @@ var filemanager = {
                             }
                         });
                         // on load remove the progress bar
-                        xhr.upload.onload = function () {
+                        xhr.upload.onload = function() {
                             $row.remove();
                         };
                         // return the customized object
                         return xhr;
                     },
-                    success: function (data) {
+                    success: function(data) {
                         // console.log('success decreasing cpt ' + cpt + '--' + data['message']);
                         if (cpt > 0) {
                             cpt -= 1;
                         }
-                        // console.log(data['message']);
                     },
-                    error: function (request, status, errorThrown) {
+                    error: function(request, status, errorThrown) {
                         if (cpt > 0) {
                             cpt -= 1;
                         }
-                        alert('error dans upload and resize: ' + errorThrown + '  !!S');
+                        alert('error : ' + errorThrown + '  !!S');
                     },
-                    complete: function (request, status) {
+                    complete: function(request, status) {
                         //when all uploads are over
                         //console.log('complete ' + cpt);
                         if (cpt === 0) {
                             $('#fmg_upload_progress').fadeOut(4000);
                             $('#fmg_file_form').fadeIn(8000);
                             $('.custom-file-label').html('');
-                            filemanager.list(current_dir);
-                        }
-                        filemanager.list(current_dir);
-                    }
-                });
-            };
-        };
-        reader.readAsDataURL(file);
-        //reader.readAsBinaryString(file);
-    },
-
-    resizeAndUploadA: function (file) {
-        console.log('in resizeAndUpload');
-        var $row = filemanager.renderFileUploadRow(file, current_dir);
-        var action_url = $('#actionUrl').html();
-        //the thumbnail in the upload line
-        var thumb = $('img', $row);
-        $('#fmg_upload_progress').append($row);
-        $row.find('.progress').css('width', 0 + '%');
-        var form = $("#fmg_file_form");
-        var form_data = new FormData();
-        form_data.append('to_do', 'upload_resize');
-        //form_data.append('file_data', file);//file is not required with resize
-        form_data.append('folder', current_dir);
-        form_data.append('filename', file.name);
-
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            thumb.attr('src', reader.result);
-            var tempImg = new Image();
-            tempImg.src = reader.result;
-            tempImg.onload = function (e) {
-
-                var MAX_WIDTH = 1600;
-                var MAX_HEIGHT = 1200;
-                var tempW = tempImg.width;
-                var tempH = tempImg.height;
-                if (tempW > tempH) {
-                    if (tempW > MAX_WIDTH) {
-                        tempH *= MAX_WIDTH / tempW;
-                        tempW = MAX_WIDTH;
-                    }
-                } else {
-                    if (tempH > MAX_HEIGHT) {
-                        tempW *= MAX_HEIGHT / tempH;
-                        tempH = MAX_HEIGHT;
-                    }
-                }
-                var canvas = document.createElement('canvas');
-                canvas.width = tempW;
-                canvas.height = tempH;
-                var ctx = canvas.getContext("2d");
-                ctx.drawImage(this, 0, 0, tempW, tempH);
-                var dataURL = canvas.toDataURL("image/jpeg");
-                form_data.append('image', dataURL);
-                document.getElementById('output').src = dataURL;
-
-                //each time an ajax request is made cpt is increased
-                //will be decreased on complete
-                cpt += 1;
-                $.ajax({
-                    dataType: 'json',
-                    type: 'post',
-                    url: "filemanager/manage",
-                    data: form_data,
-                    processData: false,
-                    contentType: false,
-                    xhr: function () {
-                        xhr = new window.XMLHttpRequest(); //new
-                        xhr.upload.addEventListener('progress', function (e) {
-                            if (e.lengthComputable) {
-                                percent = e.loaded / e.total * 100;
-                                console.log("percent is " + percent);
-                                $row.find('.progress').css('width', (percent | 0) + '%');
-                            }
-                        });
-                        // on load remove the progress bar
-                        xhr.upload.onload = function () {
-                            $row.remove();
-                        };
-                        // return the customized object
-                        return xhr;
-                    },
-                    success: function (data) {
-                        // console.log('success decreasing cpt ' + cpt + '--' + data['message']);
-                        if (cpt > 0) {
-                            cpt -= 1;
-                        }
-                    },
-                    error: function (request, status, errorThrown) {
-                        if (cpt > 0) {
-                            cpt -= 1;
-                        }
-                        alert('error : ' + errorThrown + '  !!S');
-                    },
-                    complete: function (request, status) {
-                        //when all uploads are over
-                        //console.log('complete ' + cpt);
-                        if (cpt === 0) {
-                            $('#fmg_upload_progress').fadeOut(4000);
-                            $('#fmg_file_form').fadeIn(8000);
-                            $('#fmg-multiple-input-label').html('');
 
                             filemanager.list(current_dir);
                         }
                         filemanager.list(current_dir);
                     }
                 });
-            };
-        };
-        reader.readAsDataURL(file);
-        //reader.readAsBinaryString(file);
-    },
-
-    //not used at the moment
-    //upload the file without resizing
-    // if resizing is necessary, please use
-    // resizeAndUpload
-    uploadFile: function (file) {
-        var $row = filemanager.renderFileUploadRow(file, current_dir);
-        var action_url = $('#actionUrl').html();
-        filemanager.createThumbnail(file, $row);
-        $('#fmg_upload_progress').append($row);
-        $row.find('.progress').css('width', 0 + '%');
-        var form = $("#fmg_file_form");
-        var form_data = new FormData();
-
-        form_data.append('to_do', 'upload_resize');
-        form_data.append('file_data', file);
-        form_data.append('folder', current_dir);
-        $.ajax({
-            dataType: 'json',
-            type: 'post',
-            url: "filemanager/manage",
-            data: form_data,
-            processData: false,
-            contentType: false,
-            xhr: function () {
-                // get the native XmlHttpRequest object
-                var xhr = $.ajaxSettings.xhr();
-
-                // set the onprogress event handler
-                xhr.upload.onprogress = function (e) {
-                    //xhr.upload.addEventListener('progress', function(e) {
-                    if (e.lengthComputable) {
-                        percent = e.loaded / e.total * 100;
-                        $row.find('.progress').css('width', (e.loaded / e.total * 100) + '%');
-                        console.log("percent is : " + percent);
-                    } else {
-                        console.log("progress non computable");
-                    }
-                };
-                // set the onload event handler
-                xhr.upload.onload = function () {
-                    console.log(xhr.response);
-
-                    $row.remove();
-
-                    filemanager.list(current_dir);
-                };
-                // return the customized object
-                return xhr;
-            },
-            success: function (data) {
-                alert('success in uploading');
-                console.log(data);
-                if (cpt > 0) {
-                    cpt -= 1;
-                }
-            },
-            error: function (request, status, errorThrown) {
-                alert('error : ' + errorThrown + '!!S');
-            },
-            complete: function (request, status) {
-                if (cpt === 0) {
-                    $('#fmg_upload_progress').fadeOut(4000);
-                    $('#fmg_file_form').fadeIn(4000);
-                }
             }
-        });
+            tempImg.src = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
     },
+
+
+
 
     //create a dir whose name is defined by user
     //in the name input 
@@ -603,7 +433,7 @@ var selectedRows = [];
 var lastSelectedRow = undefined;
 $(document).ready(function () {
     filemanager.list(current_dir);
-
+    console.clear();
 
 
     $('#fmg_btn_mkdir').click(function (event) {
@@ -649,7 +479,7 @@ $(document).ready(function () {
         for (var i = 0; i < $(this)[0].files.length; i++) {
             file = $(this)[0].files[i];
             files.push(file.name);
-            filemanager.resizeAndUpload(input.files[i]);
+            //filemanager.resizeAndUpload(input.files[i]);
         }
 
     });
@@ -664,6 +494,7 @@ $(document).ready(function () {
             var input = document.getElementById('fmg-multiple-input');//equivalent return the DOM element
 
             for (var i = 0; i < input.files.length; i++) {
+                console.log(input.files[i]);
                 filemanager.resizeAndUpload(input.files[i]);
                 //filemanager.uploadFile(input.files[i]);
             }
