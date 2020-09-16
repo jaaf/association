@@ -189,18 +189,24 @@ class FilemanagerController extends Controller
         if (!is_dir($destination_dir)) {
             mkdir($destination_dir, 0770, true);
         }
-        //$route = DIRECTORY_SEPARATOR.$request->attributes->get('_route');
-        //$route = DIRECTORY_SEPARATOR.$request->attributes->get('_route_params');
         $actionUrl = "/filemanager";
 
         $currentDir = $destination_dir;
         $actionUrl = $actionUrl; 
-        /*if(str_contains($navigator,'Firefox')){
+<<<<<<< HEAD
+        if(str_contains($navigator,'Firefox')){
+=======
+        if(str_contains($navigator,'Firefox')){
+>>>>>>> devel
 
             return back()->with('failure','Apparemment vous utilisez le navigateur Firefox ! Le téléversement d\'images ne fonctionne pas avec ce navigateur. Utilisez
         plutôt un autre navigateur comme Opera, Chrome ou Edge.');
 
-        }*/
+<<<<<<< HEAD
+        }
+=======
+        }
+>>>>>>> devel
         return view('filemanager.main', compact('currentDir', 'actionUrl'));
     }
 }
