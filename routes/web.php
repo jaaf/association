@@ -20,6 +20,9 @@ Route::get('/email', function ($post_id,$dir) {
     return 'done';
 });
 
+Route::get('/', 'HomeController@index')->name('home-direct');
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/filemanager','FilemanagerController@index')->name('filemanager.index');
 Route::post('/filemanager/manage','FilemanagerController@manage')->name('filemanager.manage');
 
@@ -35,8 +38,8 @@ Route::get('reload-captcha', 'CaptchaServiceController@reloadCaptcha');
 Route::get('/download/display/{file}','DownloadController@display')->name('download.display')->where('file', '(.*)')->middleware('verified');
 Route::get('/download/serve/{file}','DownloadController@serve')->name('download.serve')->where('file', '(.*)')->middleware('verified');
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'HomeController@index')->name('home-direct');
+
+
 
 Route::resource('posts','PostsController')->middleware('verified');
 Route::get('posts/narratives/{year}','PostsController@narratives')->name('posts.narratives')->middleware('verified');
@@ -86,6 +89,6 @@ Route::any('{catchall}',function(){
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 
