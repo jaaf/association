@@ -8,7 +8,7 @@
          <a href= "{{route('infoletter.create')}}">Ajouter une lettre</a>
          </div>
     </div>
-	<table class="table table-stripped">
+	<table class="table table-stripped infoletter-list-preview">
 		<thead>
 			<tr>
                 <th>Id</th>
