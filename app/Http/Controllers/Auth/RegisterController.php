@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Utils;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Utils as GlobalUtils;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -67,13 +70,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        
+        
+        //format firstname and familyname is user didn't
+        $firstname=$data['firstname'];
+        $firstname=Utils::nameize($firstname);
+        Log::debug('first name is '.$firstname);
+        $familyname=$data['familyname'];
+        $familyname=Utils::nameize($familyname);
+        Log::debug('familyname  is '.$familyname);
+        $name= $firstname.' '.$familyname;
+        $city=$data['city'];
+        $city=Utils::nameize($city);
+        $city=str_replace(' ','-',$city);
+
         return User::create([
-            'name' => $data['firstname'].' '.$data['familyname'],
+            'name' => $name,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'firstname'=>$data['firstname'],
-            'familyname'=>$data['familyname'],
-            'city'=>$data['city']
+            'firstname'=>$firstname,
+            'familyname'=>$familyname,
+            'city'=>$city
         ]);
      
     }

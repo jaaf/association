@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <div class="button-line">
          <div class="button-link">
-             <a href="/registrations/create/{{$post->id}}  class="my-button-link ">Inscrire une personne</a>
+             <a href="/registrations/create/{{$post->id}}"  class="my-button-link ">Inscrire une personne</a>
          </div>
          @can('isAtLeastManager')
              <div class="button-link">

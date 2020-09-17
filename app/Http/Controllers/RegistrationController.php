@@ -7,6 +7,7 @@ use App\Post;
 use App\Registration;
 use App\Auth;
 use App\User;
+use App\Utils;
 
 
 class RegistrationController extends Controller
@@ -78,10 +79,18 @@ class RegistrationController extends Controller
                 'agent_id'=>'required'
 
            ]);
+           $firstname=$request->input('firstname');
+           $firstname=Utils::nameize($firstname);
+           $familyname=$request->input('familyname');
+           $familyname=Utils::nameize($familyname);
+           $city=$request->input('city');
+           $city=Utils::nameize($city);
+           $city=str_replace(' ','-',$city);
+
            $registration=new Registration();
-           $registration->firstname=$request->input('firstname');
-           $registration->familyname=$request->input('familyname');
-           $registration->city=$request->input('city');
+           $registration->firstname=$firstname;
+           $registration->familyname=$familyname;
+           $registration->city=$city;
            $registration->remark=$request->input('remark');
            $registration->post_id=$request->input('post_id');
            $registration->agent_id=$request->input('agent_id');
@@ -122,6 +131,8 @@ class RegistrationController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        
         if (auth()->user()) {
             $this->validate($request, [
                  'firstname'=>'required',
@@ -131,10 +142,19 @@ class RegistrationController extends Controller
                  'agent_id'=>'required'
  
             ]);
+  
+            $firstname=$request->input('firstname');
+            $firstname=Utils::nameize($firstname);
+            $familyname=$request->input('familyname');
+            $familyname=Utils::nameize($familyname);
+            $city=$request->input('city');
+            $city=Utils::nameize($city);
+            $city=str_replace(' ','-',$city);
+
             $registration=Registration::find($id);
-            $registration->firstname=$request->input('firstname');
-            $registration->familyname=$request->input('familyname');
-            $registration->city=$request->input('city');
+            $registration->firstname=$firstname;
+            $registration->familyname=$familyname;
+            $registration->city=$city;
             $registration->remark=$request->input('remark');
             $registration->post_id=$request->input('post_id');
             $registration->agent_id=$request->input('agent_id');
