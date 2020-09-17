@@ -51,6 +51,21 @@
 						<div class="row post-option-background">
 							<div class="col-md-12" >
 								{{ Form::hidden('infoletter_id', $infoletter->id) }}{{--permetra de retrouver title et body--}}
+								{{ Form::hidden('users', $users )}}{{--permetra de boucler dans jquery--}}
+							
+							</div>
+						</div>
+						{{Form::submit('Envoyer aux managers',['class'=>'my-button btn  btn-submit btn-to-MNG','id'=>'btn-to-MNG'])}}
+
+					{!! Form::close() !!}
+				</div>
+				<div>
+				    {{--below a form with a submit button that will be intercepted by the java script at the bottom of page--}}   
+					{{--The script will trigger ajax requests / one per user--}}
+					{!! Form::open([]) !!}
+						<div class="row post-option-background">
+							<div class="col-md-12" >
+								{{ Form::hidden('infoletter_id', $infoletter->id) }}{{--permetra de retrouver title et body--}}
 								{{ Form::hidden('user_id',  Auth::user()->id )}}
 							
 							</div>
@@ -71,7 +86,9 @@
 	<div class="my-post-body">
 		<h3 style="color:white;">Objet : {{$infoletter->title}}</h3>
 		<hr style="border-top:2px solid lightblue;">
-		{!!html_entity_decode($emailview)!!}
+		<div class="infoletter-preview">
+			{!!html_entity_decode($emailview)!!}
+		</div>
 		
 	</div>		
 </div>	
@@ -132,7 +149,31 @@
 				}
 			}	
 		});
+		$('#btn-to-MNG').click(function(e){	
+			e.preventDefault();
+			var CAMembers=[1,69,2];//1 admin, 2 jaaf, 4 sylvie, 7 mayou, 69 marchand (fake)
+			var infoletter_id = $("input[name=infoletter_id]").val();
+			var users = $("input[name=users]").val();
+			parsed_users=JSON.parse(users);
+			var i=0;
+			var url='{{ url('infoletters/sendToOne') }}';
+			delay=0;
+			for (i=0; i<parsed_users.length;i++){
+				if(CAMembers.includes(parsed_users[i].id)){
+					$.ajax({
+						type:'POST',
+						url:url,
+						data:{user_id:parsed_users[i].id,infoletter_id:infoletter_id,delay:delay},
+						dataType: 'json',
+						success:function(data){
+							$('#messages').prepend('<div class="comments-message" style="margin-bottom:15px;padding:5px;background-color: green; color: white; margin-top:5px;">'+data['success']+'!.</div>');
+						}
+					});
+                delay=delay+3;
 
+				}
+			}	
+		});
 		$('#btn-to-me').click(function(e){	
 			$('#messages').prepend('<div class="comments-message" style="margin-bottom:15px;padding:5px;background-color: green; color: white; margin-top:5px;">Le script fonctionne.</div>');
 			e.preventDefault();
