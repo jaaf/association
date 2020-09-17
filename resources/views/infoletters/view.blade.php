@@ -86,7 +86,9 @@
 	<div class="my-post-body">
 		<h3 style="color:white;">Objet : {{$infoletter->title}}</h3>
 		<hr style="border-top:2px solid lightblue;">
-		{!!html_entity_decode($emailview)!!}
+		<div class="infoletter-preview">
+			{!!html_entity_decode($emailview)!!}
+		</div>
 		
 	</div>		
 </div>	
