@@ -151,7 +151,7 @@
 		});
 		$('#btn-to-MNG').click(function(e){	
 			e.preventDefault();
-			var CAMembers=[1,69,2];//1 admin, 2 jaaf, 4 sylvie, 7 mayou, 69 marchand (fake)
+			var CAMembers=[1,2,4,7];//1 admin, 2 jaaf, 4 sylvie, 7 mayou, 69 marchand (fake)
 			var infoletter_id = $("input[name=infoletter_id]").val();
 			var users = $("input[name=users]").val();
 			parsed_users=JSON.parse(users);
