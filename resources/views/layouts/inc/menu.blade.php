@@ -73,7 +73,7 @@
           </div>
         </li>
 
-        <li class="nav-item"><a class="nav-link" href="">Contacts</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact">Contacts</a></li>
       </ul>
     </nav>
   </div>
