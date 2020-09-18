@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <div id="app" class="app d-flex">
+    <div id="app" class="app ">
         @include('layouts.inc.topbar')
         @include('layouts.inc.banner')
 

@@ -1,4 +1,4 @@
-      <div class="container topbar">
+      <div class="container topbar ">
           <nav class="navbar navbar-expand-sm  ">
 
               {{-- With d-none d-lg-block logo hides on screen smaller than lg
