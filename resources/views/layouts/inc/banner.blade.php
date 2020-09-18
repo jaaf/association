@@ -1,4 +1,4 @@
- <div id="option" class="carousel carousel-fade container banner" data-ride="carousel" data-interval="9000">
+ <div id="option" class="carousel carousel-fade container banner  d-none d-sm-block" data-ride="carousel" data-interval="9000">
     <div id="carouselExampleSlidesOnly"
       class="carousel slide"
       data-ride="carousel">
