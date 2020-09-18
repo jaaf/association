@@ -26400,6 +26400,12 @@ body {
   padding-left: 30px;
 }
 
+@media (max-width: 567px) {
+  .topbar {
+    margin-bottom: 100px;
+  }
+}
+
 .super-topbar {
   width: 100%;
   background-color: red;
