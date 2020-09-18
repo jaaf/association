@@ -1,7 +1,8 @@
       <div class="container topbar">
           <nav class="navbar navbar-expand-sm  ">
-              
-              {{-- With d-none d-lg-block logo hides on screen smaller than lg --}}
+
+              {{-- With d-none d-lg-block logo hides on screen smaller than lg
+              --}}
               <div class="col-md-3 d-none d-lg-block">
                   <div id="contain-logo">
                       <div id="logo">
@@ -65,7 +66,7 @@
 
                           <div class="dropdown-menu ">
                               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                     document.getElementById('logout-form').submit();">
+                                                                         document.getElementById('logout-form').submit();">
                                   {{ 'Se déconnecter' }}
                               </a>
                           </div>
