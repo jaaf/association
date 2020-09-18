@@ -1,6 +1,7 @@
       <div class="container topbar">
           <nav class="navbar navbar-expand-sm  ">
-
+              
+              {{-- With d-none d-lg-block logo hides on screen smaller than lg --}}
               <div class="col-md-3 d-none d-lg-block">
                   <div id="contain-logo">
                       <div id="logo">
@@ -10,7 +11,7 @@
               </div>
 
 
-              <!-- Right Side Of Navbar -->
+              <!-- with ml-auto item align on right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
                   @guest
@@ -54,7 +55,7 @@
 
                       @endcan
                       <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
                               Bienvenue {{ Auth::user()->firstname }} {{ Auth::user()->familyname }} !
                               @can('isAtLeastPhotoprovider')
                                   {{--Vous avez le rôle
@@ -62,16 +63,16 @@
                               @endcan
                           </a>
 
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          <div class="dropdown-menu ">
                               <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                 document.getElementById('logout-form').submit();">
+                                                                     document.getElementById('logout-form').submit();">
                                   {{ 'Se déconnecter' }}
                               </a>
-
-                              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                  @csrf
-                              </form>
                           </div>
+
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                              @csrf
+                          </form>
                       </li>
                   @endguest
               </ul>
