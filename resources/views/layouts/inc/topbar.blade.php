@@ -13,7 +13,7 @@
 
 
               <!-- with ml-auto item align on right Side Of Navbar -->
-              <ul class="navbar-nav ml-auto">
+              <ul class="navbar-nav ml-auto" z-index=100>
                   <!-- Authentication Links -->
                   @guest
                       <li class="nav-item">
