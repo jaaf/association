@@ -26531,8 +26531,8 @@ https://stackoverflow.com/questions/26770055/bootstrap-carousel-fade-no-longer-w
   padding: 5px;
 }
 
-.navbar-nav .nav-lik {
-  padding: 5px;
+.navbar-nav .nav-link {
+  padding-left: 5px;
 }
 
 /***********SLOGAN*********************************************************************************/
