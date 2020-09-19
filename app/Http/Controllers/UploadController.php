@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 class UploadController extends Controller
 {
 
+ 
     public function index(){
 
         return view('upload.index');

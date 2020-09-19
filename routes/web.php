@@ -72,7 +72,7 @@ Route::put('adherents','AdherentController@update')->name('adherent.update')->mi
 Route::delete('adherents/destroy/{id}','AdherentController@destroy')->name('adherent.destroy')->middleware('verified');
 
 Route::get('surveys','SurveyController@index')->name('survey.index');
-Route::get('survey/create','SurveyController@create')->name('survey.create');
+Route::get('surveys/create','SurveyController@create')->name('survey.create');
 Route::get('surveys/send/{id}','SurveyController@send')->name('survey.send');
 Route::get('surveys/view/{id}','SurveyController@view')->name('survey.view');
 Route::get('surveys/edit/{id}','SurveyController@edit')->name('survey.edit');
@@ -81,8 +81,11 @@ Route::post('surveys/sendToOne','SurveyController@sendToOne')->name('survey.send
 Route::put('surveys','SurveyController@update')->name('survey.update');
 Route::delete('surveys/destroy/{id}','SurveyController@destroy')->name('survey.destroy');
 
-Route::get('upload','UploadController@index')->name('upload.index');
-Route::post('upload','UploadController@upload')->name('upload.upload');
+Route::get('polls/create','PollController@create')->name('poll.create');
+Route::post('polls','PollController@store')->name('poll.store');
+
+Route::get('upload','UploadController@index')->name('upload.index')->middleware('isAdmin');
+Route::post('upload','UploadController@upload')->name('upload.upload')->middleware('isAdmin');
 
 Route::any('{catchall}',function(){
   return 'aucune route ne correspond à votre url';

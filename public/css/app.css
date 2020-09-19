@@ -26400,6 +26400,12 @@ body {
   padding-left: 30px;
 }
 
+@media (max-width: 567px) {
+  .topbar {
+    margin-bottom: 100px;
+  }
+}
+
 .super-topbar {
   width: 100%;
   background-color: red;
@@ -26528,6 +26534,11 @@ https://stackoverflow.com/questions/26770055/bootstrap-carousel-fade-no-longer-w
   border-radius: 5px;
   border: 1px solid antiquewhite;
   margin-left: 15px;
+  padding: 5px;
+}
+
+.navbar-nav .nav-link {
+  padding-left: 5px;
 }
 
 /***********SLOGAN*********************************************************************************/
@@ -26821,7 +26832,7 @@ div.infoletter-preview h3 {
 
 #fmg_preview img {
   position: fixed;
-  top: 200px;
+  top: 350px;
   left: 300px;
   width: 300px;
   height: 225px;

@@ -23,7 +23,7 @@
         <div class="form-group row">
             <label for="firstname" class="col-md-4 col-form-label text-md-right">{{ 'Prénom' }}</label>
             <div class="col-md-6">
-                <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{$registration->agent->firstname}}" required>
+                <input id="firstname" type="text" class="form-control @error('firstname') is-invalid @enderror" name="firstname" value="{{$registration->firstname}}" required>
 
                 @error('firstname')
                      <span class="invalid-feedback" role="alert">
@@ -35,7 +35,7 @@
         <div class="form-group row">
             <label for="familyname" class="col-md-4 col-form-label text-md-right">{{ 'Nom de famille' }}</label>
             <div class="col-md-6">
-                <input id="familyname" type="text" class="form-control @error('familyname') is-invalid @enderror" name="familyname" value="{{$registration->agent->familyname}}" required >
+                <input id="familyname" type="text" class="form-control @error('familyname') is-invalid @enderror" name="familyname" value="{{$registration->familyname}}" required >
 
                 @error('familyname')
                      <span class="invalid-feedback" role="alert">
