@@ -27,7 +27,7 @@
 							</div>
 							@if ($event->receive_registration== 1 )
 								<div class="my-accordion-link">
-									<a href="">
+									<a href="/registrations/{{$event->id}}">
 										<hr/>
 										<span class="my-accordion-link-span">S'inscrire à cet événement</span>
 									</a>
