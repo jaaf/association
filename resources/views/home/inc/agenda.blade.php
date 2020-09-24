@@ -10,7 +10,7 @@
 					<div class="card-header" id="heading{{ $loop->index }}">
 						<h5 class="mb-0">
 							<button class="btn btn-link my-accordion-button" type="button" data-toggle="collapse" data-target="#collapse{{ $loop->index }}" aria-expanded="true" aria-controls="collapse{{ $loop->index }}">
-								{{ $loop->index }}
+								{{ $loop->index+1 }}
 								-
 								{{ $event->title }}
 							</button>
