@@ -39,7 +39,7 @@
         @foreach($registrations as $registration)
           
             <tr>
-            <td>{{$loop->index}}</td>
+            <td>{{$loop->index+1}}</td>
                 <td>{{ $registration->firstname }}</td>
                 <td>{{ $registration->familyname }}</td>
                 <td>{{ $registration->city }}</td>
