@@ -35,10 +35,10 @@ class RegistrationController extends Controller
     {
         
         $post=Post::find($post_id);
-        $registrations=Registration::where('post_id',$post_id)->orderBy('created_at','asc')->paginate(25);
+        $registrations=Registration::where('post_id',$post_id)->orderBy('created_at','asc')->paginate(100);
         return view('registrations.index',compact('registrations','post'));
     }
-
+    //commentaire bidon
     /**
      * Show the form for creating a new resource.
      *

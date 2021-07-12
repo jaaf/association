@@ -10,7 +10,7 @@
 					<div class="card-header" id="heading{{ $loop->index }}">
 						<h5 class="mb-0">
 							<button class="btn btn-link my-accordion-button" type="button" data-toggle="collapse" data-target="#collapse{{ $loop->index }}" aria-expanded="true" aria-controls="collapse{{ $loop->index }}">
-								{{ $loop->index }}
+								{{ $loop->index+1 }}
 								-
 								{{ $event->title }}
 							</button>
@@ -27,7 +27,7 @@
 							</div>
 							@if ($event->receive_registration== 1 )
 								<div class="my-accordion-link">
-									<a href="">
+									<a href="/registrations/{{$event->id}}">
 										<hr/>
 										<span class="my-accordion-link-span">S'inscrire à cet événement</span>
 									</a>

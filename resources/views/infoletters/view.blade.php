@@ -22,6 +22,9 @@
 							<div class="col-md-12" >
 								{{ Form::hidden('infoletter_id', $infoletter->id) }}{{--permetra de retrouver title et body--}}
 								{{ Form::hidden('users', $users )}}{{--permetra de boucler dans jquery--}}
+								
+								{{ Form::hidden('adherents', $adherents )}}{{--permetra de boucler dans jquery--}}
+								{{ Form::hidden('additional', "" )}}{{--permetra d'indiquer un adhérent et non pas un utilisateur' dans jquery--}}
 							
 							</div>
 						</div>
@@ -37,6 +40,7 @@
 							<div class="col-md-12" >
 								{{ Form::hidden('infoletter_id', $infoletter->id) }}{{--permetra de retrouver title et body--}}
 								{{ Form::hidden('users', $users )}}{{--permetra de boucler dans jquery--}}
+								
 							
 							</div>
 						</div>
@@ -107,7 +111,9 @@
 			e.preventDefault();
 			var infoletter_id = $("input[name=infoletter_id]").val();
 			var users = $("input[name=users]").val();
+			var adherents=$("input[name=adherents").val();
 			parsed_users=JSON.parse(users);
+			parsed_adherents=JSON.parse(adherents);
 			var i=0;
 			var url='{{ url('infoletters/sendToOne') }}';
 			delay=0;
@@ -122,7 +128,25 @@
 					}
 				});
                 delay=delay+3;
-			}	
+				
+			}
+			console.log('fin de la première partie')
+			console.log(parsed_adherents.length)
+			var j=0;			
+			for (j=0; j<parsed_adherents.length;j++){
+
+				console.log('début  de la deuxième partie')
+				$.ajax({
+					type:'POST',
+					url:url,
+					data:{user_id:parsed_adherents[j].id,infoletter_id:infoletter_id,delay:delay,additional:true},
+					dataType: 'json',
+					success:function(data){
+						$('#messages').prepend('<div class="comments-message" style="margin-bottom:15px;padding:5px;background-color: orange; color: green; margin-top:5px;">'+data['success']+'!.</div>');
+					}
+				});
+                delay=delay+3;
+			}
 		});
 		$('#btn-to-CA').click(function(e){	
 			e.preventDefault();

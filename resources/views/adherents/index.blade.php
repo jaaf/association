@@ -26,7 +26,7 @@
 			<tbody>
 				@foreach ($adherents as $adherent)
 					<tr>
-						<td>{{$loop->index}}</td>
+						<td>{{$loop->index+1}}</td>
 						<td>{{ $adherent->firstname }}</td>
 						<td>{{ $adherent->familyname }}</td>
                         <td>{{ $adherent->city }}</td>
