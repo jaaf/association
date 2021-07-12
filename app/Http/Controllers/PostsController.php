@@ -151,6 +151,8 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        dd($request);
         $user = auth()->user();
         $post = Post::find($id);
         $author = $post->author; //belongsTo relationship 
