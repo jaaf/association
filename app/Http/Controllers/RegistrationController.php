@@ -38,7 +38,7 @@ class RegistrationController extends Controller
         $registrations=Registration::where('post_id',$post_id)->orderBy('created_at','asc')->paginate(100);
         return view('registrations.index',compact('registrations','post'));
     }
-
+    //commentaire bidon
     /**
      * Show the form for creating a new resource.
      *
