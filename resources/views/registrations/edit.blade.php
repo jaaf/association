@@ -17,6 +17,7 @@
 	@endif
 	
     {!! Form::open(['action' => ['RegistrationController@update',$registration->id],'method'=>'PUT']) !!}
+    @csrf
         <input id="post_id" type="hidden"  value={{$registration->post->id}} name="post_id" required >
         <input id="agent_id" type="hidden"  value={{ auth()->user()->id}} name="agent_id" required >
 
