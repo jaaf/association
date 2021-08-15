@@ -6,12 +6,11 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
 class InfoletterMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $details;
+
     /**
      * Create a new message instance.
      *
@@ -19,7 +18,7 @@ class InfoletterMail extends Mailable
      */
     public function __construct($details)
     {
-        $this->details=$details;
+         $this->details=$details;
     }
 
     /**
@@ -28,9 +27,8 @@ class InfoletterMail extends Mailable
      * @return $this
      */
     public function build()
-
     {
-        Log::debug('entering build in InfoletterMail');
+        
         return $this->subject($this->details['title'])->view('emails.infoletter')->with('details',$this->details);
     }
 }

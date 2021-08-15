@@ -18,10 +18,13 @@ class DiaporamaController extends Controller
         $dir=str_replace('-','/',$dir);
         $dirToScan= '../public/storage/photos/'.$dir;
         $base_dir =  '/storage/photos/'.$dir;
+       
         $images=scandir($dirToScan);
         array_shift($images);//skip . and ..
         array_shift($images);
-        return view('diaporama.diaporama', compact('images','base_dir','post_id'));
+        $h=800;
+        $w=1200;
+        return view('diaporama', compact('images','base_dir','post_id','h','w'));
     }
 
 }

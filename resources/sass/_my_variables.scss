@@ -1,0 +1,42 @@
+$table-colors: (
+    "bg-odd-line": #776659, 
+    "fg-odd-line":white, 
+    "admin-fg-odd-line":#DDD,
+    "bg-even-line": #BEAD91, 
+    "fg-even-line": #522E0D,
+    "admin-fg-even-line":black,
+    "bg-head":#522E0D,
+    "bg-button":#522E0D,
+    'admin-bg-head': #333,
+    'admin-bg-even-line':#888,
+    'admin-bg-odd-line':#555,
+
+    "fg-button":antiquewhite,
+    'fg-action-button':cyan
+    );
+
+$colors:(
+    "fg-page-title":peachpuff,
+    "bg-page-title": transparent,
+    "fg-form-field-title":peachpuff,
+    'fg-form-field':rgb(10, 4, 19)
+    ,
+    'bg-button-register':rgb(0, 255, 213),
+    'fg-button-register':white,
+    'bg-button-cancel':green,
+    'fg-button-cancel':peachpuff,
+    'bg-post-footer':lightgray,
+    'fg-post-footer':darkblue,
+    'bg-sub-group':rgb(156, 156, 156)
+
+
+);
+$font-sizes:(
+    "table-line": 0.9em,
+    "page-title": 2em,
+    "form-field-title":0.9em,
+    'comments-title':1.6em,
+    'comments-edition':1.3em,
+    'post-footer':0.8em
+);
+  

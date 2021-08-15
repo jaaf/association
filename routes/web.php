@@ -1,8 +1,20 @@
 <?php
 
+use App\Http\Livewire\Home;
+use App\Http\Livewire\Contact;
+use App\Http\Livewire\PostCrud;
+use App\Http\Livewire\Diaporama;
+use App\Http\Livewire\UploadPhoto;
+use App\Http\Livewire\AdherentCrud;
+use App\Http\Livewire\ShowAdherent;
+use App\Http\Livewire\InfoletterCrud;
+use App\Http\Livewire\ShowActivities;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\WelcomeMail;
+use App\Http\Livewire\RegistrationCrud;
+use App\Http\Livewire\ShowContactPeople;
+use App\Http\Livewire\ShowDocumentStatutaires;
+use App\Http\Livewire\ContactMessageConfirmation;
+use App\Http\Livewire\ShowPost;use App\Http\Livewire\ShowPostList;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,83 +27,49 @@ use App\Mail\WelcomeMail;
 |
 */
 
-Route::get('/email', function ($post_id,$dir) {
-    Mail::to('jose.fournier@mailbox.org')->send(new WelcomeMail());
-    return 'done';
-});
-
-Route::get('/', 'HomeController@index')->name('home-direct');
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/filemanager','FilemanagerController@index')->name('filemanager.index');
-Route::post('/filemanager/manage','FilemanagerController@manage')->name('filemanager.manage');
-
-Route::post('/filemanager/testajax','FilemanagerController@testajax');
-
-Route::get('/contact','ContactController@index')->name('contact');
-Route::post('/contact','ContactController@sendMessage');
-
-Auth::routes(['verify' => true]);
-Route::post('captcha-validation', 'CaptchaServiceController@capthcaFormValidate');
-Route::get('reload-captcha', 'CaptchaServiceController@reloadCaptcha');
-
-Route::get('/download/display/{file}','DownloadController@display')->name('download.display')->where('file', '(.*)')->middleware('verified');
-Route::get('/download/serve/{file}','DownloadController@serve')->name('download.serve')->where('file', '(.*)')->middleware('verified');
 
 
+Route::get('/contact',Contact::class)->name('contact');
+
+Route::get('/who-to-contact',ShowContactPeople::class)->name('who-to-contact');
+
+Route::get('verify-contact-email/{token}',ContactMessageConfirmation::class);
+
+Route::get('/show-activities',ShowActivities::class)->name('show-activities');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+Route::get('/post', PostCrud::class)->name('post')->middleware('auth');
+
+Route::get('/post/{id}',ShowPost::class)->name('post.show')->middleware('auth');
+
+//compatibility with old posts Lire la suite
+Route::get('/posts/{id}',ShowPost::class)->name('posts.show')->middleware('auth');
+
+Route::get('/post-list/{year}',ShowPostList::class)->name('post.list')->middleware('auth');
+
+Route::get('/registration/{post_id}',RegistrationCrud::class)->name('registration')->middleware('auth');
+
+//Route::get('/diaporama/show/{post_id}/{dir}','App\Http\Controllers\DiaporamaController@show')->name('diaporama')->where('dir', '(.*)');;
+
+Route::get('/diaporama/show/{post_id}/{dir}',Diaporama::class)->name('diaporama')->where('dir', '(.*)')->middleware('auth');
+
+Route::get('/adherent/',AdherentCrud::class)->name('adherent')->middleware('can:isAtLeastManager');
+
+Route::get('show-adherent',ShowAdherent::class)->name('show-adherent')->middleware('auth');
+
+Route::get('infoletter/',InfoletterCrud::class)->name('infoletter')->middleware('auth');
+
+Route::get('/',Home::class)->name('home');
+
+Route::get('/upload-photo',UploadPhoto::class)->name('upload-photo')->middleware('auth');
+
+Route::get('doc-statut',ShowDocumentStatutaires::class)->name('doc-statut');
+
+Route::get('/download/{file}','App\Http\Controllers\AccessDownloadablesController@download')->name('download')->where('file', '(.*)')->middleware('auth');
 
 
-Route::resource('posts','PostsController')->middleware('verified');
-Route::get('posts/narratives/{year}','PostsController@narratives')->name('posts.narratives')->middleware('verified');
-
-Route::post('/comments','CommentController@store')->name('storeAjax')->middleware('verified');
-Route::get('/diaporama/show/{post_id}/{dir}','DiaporamaController@show')->name('diaporama')->middleware('verified');
-
-Route::get('registrations/{post_id}','RegistrationController@index')->name('registration.index')->middleware('verified');
-Route::get('registrations/create/{post_id}','RegistrationController@create')->name('registration.create')->middleware('verified');
-Route::post('registrations','RegistrationController@store')->name('registration.store')->middleware('verified');
-Route::delete('registrations/destroy/{id}','RegistrationController@destroy')->name('registration.destroy')->middleware('verified');
-Route::get('registrations/edit/{id}','RegistrationController@edit')->name('registration.edit')->middleware('verified');
-Route::put('registrations/{id}','RegistrationController@update')->name('registration.update')->middleware('verified');
-
-Route::get('infoletters','InfoletterController@index')->name('infoletter.index')->middleware('verified');
-Route::get('infoletters/create','InfoletterController@create')->name('infoletter.create')->middleware('verified');
-Route::get('infoletters/send/{id}','InfoletterController@send')->name('infoletter.send')->middleware('verified');
-Route::get('infoletters/view/{id}','InfoletterController@view')->name('infoletter.view')->middleware('verified');
-Route::get('infoletters/edit/{id}','InfoletterController@edit')->name('infoletter.edit')->middleware('verified');
-Route::post('infoletters','InfoletterController@store')->name('infoletter.store')->middleware('verified');
-Route::post('infoletters/sendToOne','InfoletterController@sendToOne')->name('infoletter.sendToOne')->middleware('verified');
-Route::put('infoletters','InfoletterController@update')->name('infoletter.update')->middleware('verified');
-Route::delete('infoletters/destroy/{id}','InfoletterController@destroy')->name('infoletter.destroy')->middleware('verified');
-
-Route::get('adherents','AdherentController@index')->name('adherent.index')->middleware('verified');
-Route::get('adherents/create','AdherentController@create')->name('adherent.create')->middleware('verified');
-Route::post('adherents','AdherentController@store')->name('adherent.store')->middleware('verified');
-Route::get('adherents/edit/{id}','AdherentController@edit')->name('adherent.edit')->middleware('verified');
-Route::put('adherents','AdherentController@update')->name('adherent.update')->middleware('verified');
-Route::delete('adherents/destroy/{id}','AdherentController@destroy')->name('adherent.destroy')->middleware('verified');
-
-Route::get('surveys','SurveyController@index')->name('survey.index');
-Route::get('surveys/create','SurveyController@create')->name('survey.create');
-Route::get('surveys/send/{id}','SurveyController@send')->name('survey.send');
-Route::get('surveys/view/{id}','SurveyController@view')->name('survey.view');
-Route::get('surveys/edit/{id}','SurveyController@edit')->name('survey.edit');
-Route::post('surveys','SurveyController@store')->name('survey.store');
-Route::post('surveys/sendToOne','SurveyController@sendToOne')->name('survey.sendToOne');
-Route::put('surveys','SurveyController@update')->name('survey.update');
-Route::delete('surveys/destroy/{id}','SurveyController@destroy')->name('survey.destroy');
-
-Route::get('polls/create','PollController@create')->name('poll.create');
-Route::post('polls','PollController@store')->name('poll.store');
-
-Route::get('upload','UploadController@index')->name('upload.index')->middleware('isAdmin');
-Route::post('upload','UploadController@upload')->name('upload.upload')->middleware('isAdmin');
-
-Route::any('{catchall}',function(){
-  return 'aucune route ne correspond à votre url';
-});
-Auth::routes();
-
-
-
-
+Route::get('/display/{file}','App\Http\Controllers\AccessDownloadablesController@display')->name('display')->where('file', '(.*)')->middleware('auth');

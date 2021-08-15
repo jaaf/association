@@ -1,10 +1,16 @@
 <?php
 
 namespace App\Providers;
-
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Models\Post;
+use App\Models\Comment;
+use App\Models\Infoletter;
+use App\Models\Registration;
+use App\Policies\PostPolicy;
+use App\Policies\CommentPolicy;
+use App\Policies\InfoletterPolicy;
+use App\Policies\RegistrationPolicy;
 use Illuminate\Support\Facades\Gate;
-//use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -14,7 +20,12 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // 'App\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Models\Model' => 'App\Policies\ModelPolicy',   
+        Post::class => PostPolicy::class,
+        Comment::class=>CommentPolicy::class,
+        Registration::class=>RegistrationPolicy::class,
+        Adherent::class=>AdherentPolicy::class, 
+        Infoletter::class=>InfoletterPolicy::class
     ];
 
     /**
@@ -25,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        /* define a admin user role */
+/* define a admin user role */
         Gate::define('isAdmin', function($user) {
             return ($user->role == 'admin');
         });
@@ -53,10 +64,7 @@ class AuthServiceProvider extends ServiceProvider
        });
         
 
-        /* define a user role */
-        Gate::define('isUser', function($user) {
-            return $user->role == 'user';
- });
+    
         //
     }
 }
